@@ -1,8 +1,61 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+const services = [
+  {
+    number: "01",
+    title: "Communication skills",
+    tag: "Guest support",
+    description:
+      "We listen to your ideas, answer your questions, and make sure you know what to expect. We’ll be in touch before, during, and after your event.",
+  },
+  {
+    number: "02",
+    title: "Designing",
+    tag: "Custom design",
+    description:
+      "We can personalize layouts featuring your event colors, names, date, and logo.",
+  },
+  {
+    number: "03",
+    title: "Programming skills",
+    tag: "Interactive features",
+    description:
+      "Javascript, HTML, CSS, node.js, typescript, and more. We can create a custom experience for your event, including interactive features and animations.",
+  },
+];
 ---
 
 <BaseLayout
   title="Services | Click Chick Booth"
   description="Click Chick Booth photo booth rental services."
-/>
+>
+  <main class="page-main">
+    <section class="page-heading page-shell">
+      <p class="eyebrow"><span class="eyebrow-mark">✳</span> What we do</p>
+      <h1>A little extra joy,<br /><em>one photo at a time.</em></h1>
+      <p class="page-lede">
+        Bring your people together for an easy, playful photo booth experience—and a small reminder of a day worth celebrating.
+      </p>
+    </section>
+
+    <section class="service-list page-shell" aria-label="Photo booth services">
+      {services.map((service) => (
+        <article class="service-card">
+          <div class="service-card-top">
+            <span class="service-number">{service.number}</span>
+            <span class="service-tag">{service.tag}</span>
+          </div>
+          <h2>{service.title}</h2>
+          <p>{service.description}</p>
+          <span class="service-spark" aria-hidden="true">✳</span>
+        </article>
+      ))}
+    </section>
+
+    <section class="page-cta page-shell">
+      <p class="eyebrow">Have a date in mind?</p>
+      <h2>Let’s make something<br /><em>worth remembering.</em></h2>
+      <a class="button" href="mailto:clickchickbooth@gmail.com">Tell us about your event <span aria-hidden="true">↗</span></a>
+    </section>
+  </main>
+</BaseLayout>

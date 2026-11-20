@@ -1,8 +1,63 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+const steps = [
+  {
+    number: "01",
+    title: "Tell us what you’re celebrating",
+    description:
+      "Send your event date, location, and the kind of celebration you have in mind. A few details help us get started.",
+  },
+  {
+    number: "02",
+    title: "Choose the booth details",
+    description:
+      "We’ll talk through the setup and available options for your event, including the look and keepsake details you’d like.",
+  },
+  {
+    number: "03",
+    title: "Confirm your booking",
+    description:
+      "Once the date and details are agreed, we’ll confirm the booking and make sure you know what to expect next.",
+  },
+  {
+    number: "04",
+    title: "Enjoy the moment",
+    description:
+      "On the day, gather your favorite people, strike a pose, and let the booth add a little extra fun to the celebration.",
+  },
+];
 ---
 
 <BaseLayout
   title="Process | Click Chick Booth"
   description="The Click Chick Booth booking process."
-/>
+>
+  <main class="page-main">
+    <section class="page-heading page-shell">
+      <p class="eyebrow"><span class="eyebrow-mark">✳</span> How it works</p>
+      <h1>From first hello<br /><em>to final pose.</em></h1>
+      <p class="page-lede">
+        Booking your booth should feel simple. Here’s how we go from your first message to a room full of camera-ready guests.
+      </p>
+    </section>
+
+    <section class="process-list page-shell" aria-label="Booking steps">
+      {steps.map((step) => (
+        <article class="process-step">
+          <span class="process-number">{step.number}</span>
+          <div>
+            <h2>{step.title}</h2>
+            <p>{step.description}</p>
+          </div>
+          <span class="process-arrow" aria-hidden="true">↘</span>
+        </article>
+      ))}
+    </section>
+
+    <section class="page-cta page-shell">
+      <p class="eyebrow">Ready when you are</p>
+      <h2>Let’s start with<br /><em>your date.</em></h2>
+      <a class="button" href="mailto:clickchickbooth@gmail.com">Ask about your event <span aria-hidden="true">↗</span></a>
+    </section>
+  </main>
+</BaseLayout>
