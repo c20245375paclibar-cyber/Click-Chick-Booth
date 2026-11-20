@@ -1,0 +1,409 @@
+---
+import photoEditing from "../pages/images/photo-editing.jpg";
+import creativeLayout from "../pages/images/creative-layout.jpg";
+import webDevelopment from "../pages/images/web-development.jpg";
+
+const nonTechnicalSkills = [
+  {
+    title: "Communication",
+    description:
+      "Understanding client ideas and sharing clear feedback while planning every project.",
+  },
+  {
+    title: "Photo Editing",
+    description:
+      "Enhancing and retouching photos by improving color, lighting, clarity, and presentation.",
+  },
+  {
+    title: "Layouts & Design",
+    description:
+      "Creating thoughtful photo layouts and visual designs that match the style of each project.",
+  },
+];
+
+const programmingSkills = [
+  {
+    title: "Web Development",
+    description:
+      "Building responsive websites and digital experiences using HTML, CSS, and JavaScript.",
+  },
+  {
+    title: "Interactive Features",
+    description:
+      "Developing galleries, animations, filters, user controls, and practical digital interactions.",
+  },
+  {
+    title: "Custom Programming",
+    description:
+      "Turning edited photos and creative layouts into complete, engaging web-based experiences.",
+  },
+];
+
+const steps = [
+  {
+    number: "01",
+    title: "Understand",
+    description:
+      "We begin by learning about your idea, your goals, and the creative or technical work you need.",
+  },
+  {
+    number: "02",
+    title: "Plan & Design",
+    description:
+      "We organize the project and create layouts, visual designs, or photo edits that match your vision.",
+  },
+  {
+    number: "03",
+    title: "Build & Develop",
+    description:
+      "We use our programming skills to turn the approved design into a working digital experience.",
+  },
+  {
+    number: "04",
+    title: "Review & Refine",
+    description:
+      "We review the finished result, make improvements, and check that it works across devices.",
+  },
+];
+
+const projects = [
+  {
+    title: "Photo Editing",
+    description:
+      "Retouched and enhanced photos with improved color, lighting, detail, and visual consistency.",
+    image: photoEditing,
+    imageAlt: "Camera and lenses in a black-and-white photo",
+  },
+  {
+    title: "Custom Layouts",
+    description:
+      "Designed polished photo layouts and compositions for digital presentation and creative projects.",
+    image: creativeLayout,
+    imageAlt: "Designer drawing on a digital tablet",
+  },
+  {
+    title: "Interactive Websites",
+    description:
+      "Built responsive web experiences using HTML, CSS, JavaScript, and custom interactive features.",
+    image: webDevelopment,
+    imageAlt: "Laptop displaying code on a developer's desk",
+  },
+];
+---
+
+<section id="services" class="portfolio-section" aria-labelledby="services-title">
+  <header class="section-heading">
+    <p>What we offer</p>
+    <h2 id="services-title">Our Services</h2>
+    <span>Creative and technical skills working together.</span>
+  </header>
+
+  <h3 class="group-title">Non-Technical Skills</h3>
+  <div class="portfolio-grid">
+    {nonTechnicalSkills.map((skill) => (
+      <article class="skill-card portfolio-card">
+        <h3>{skill.title}</h3>
+        <p>{skill.description}</p>
+      </article>
+    ))}
+  </div>
+
+  <h3 class="group-title programming-title">Programming Skills</h3>
+  <div class="portfolio-grid">
+    {programmingSkills.map((skill) => (
+      <article class="skill-card portfolio-card">
+        <h3>{skill.title}</h3>
+        <p>{skill.description}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
+<section id="process" class="portfolio-section portfolio-section-alt" aria-labelledby="process-title">
+  <header class="section-heading">
+    <p>How we work</p>
+    <h2 id="process-title">Our Process</h2>
+    <span>A clear four-step process from the first idea to the finished project.</span>
+  </header>
+
+  <div class="portfolio-grid process-grid">
+    {steps.map((step) => (
+      <article class="process-card portfolio-card">
+        <span class="step-number">{step.number}</span>
+        <h3>{step.title}</h3>
+        <p>{step.description}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
+<section id="about" class="portfolio-section" aria-labelledby="about-title">
+  <header class="section-heading">
+    <p>Get to know us</p>
+    <h2 id="about-title">About Click Chick Booth</h2>
+    <span>Creative design and programming for thoughtful digital experiences.</span>
+  </header>
+
+  <div class="portfolio-grid">
+    <article class="about-card portfolio-card">
+      <h3>Our Creative Skills</h3>
+      <p>
+        We edit and enhance photos, improve visual details, and create layouts
+        that present each project clearly and attractively.
+      </p>
+    </article>
+    <article class="about-card portfolio-card">
+      <h3>Our Approach</h3>
+      <p>
+        We combine communication, design, and technical thinking to understand
+        ideas and turn them into polished results.
+      </p>
+    </article>
+    <article class="about-card portfolio-card">
+      <h3>Our Programming Skills</h3>
+      <p>
+        We use HTML, CSS, JavaScript, and interactive features to bring our
+        edited photos and visual layouts to life on the web.
+      </p>
+    </article>
+  </div>
+</section>
+
+<section id="projects" class="portfolio-section portfolio-section-alt" aria-labelledby="projects-title">
+  <header class="section-heading">
+    <p>Our work</p>
+    <h2 id="projects-title">Our Projects</h2>
+    <span>Creative design connected with practical programming skills.</span>
+  </header>
+
+  <div class="portfolio-grid">
+    {projects.map((project) => (
+      <article class="project-card portfolio-card">
+        <img
+          class="project-image"
+          src={project.image.src}
+          width={project.image.width}
+          height={project.image.height}
+          alt={project.imageAlt}
+          loading="lazy"
+        />
+        <div class="project-copy">
+          <h3>{project.title}</h3>
+          <p>{project.description}</p>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<section id="contact" class="portfolio-section contact-section" aria-labelledby="contact-title">
+  <header class="section-heading">
+    <p>Get in touch</p>
+    <h2 id="contact-title">Contact Us</h2>
+    <span>Tell us about your project and we'll be in touch.</span>
+  </header>
+
+  <form
+    class="contact-form"
+    action="mailto:clickchickbooth@gmail.com"
+    method="post"
+    enctype="text/plain"
+  >
+    <label for="contact-name">Name</label>
+    <input id="contact-name" name="Name" type="text" autocomplete="name" required />
+
+    <label for="contact-email">Email</label>
+    <input id="contact-email" name="Email" type="email" autocomplete="email" required />
+
+    <label for="contact-message">Message</label>
+    <textarea id="contact-message" name="Message" rows="5" required></textarea>
+
+    <button type="submit">Send message</button>
+  </form>
+</section>
+
+<style>
+  .portfolio-section {
+    background: #fffdf7;
+    margin-inline: auto;
+    max-width: 1440px;
+    padding: clamp(68px, 8vw, 110px) clamp(24px, 7vw, 96px);
+    scroll-margin-top: 92px;
+  }
+
+  .portfolio-section-alt {
+    background: #f5f0e6;
+  }
+
+  .section-heading {
+    color: #3a3028;
+    margin: 0 auto 42px;
+    text-align: center;
+  }
+
+  .section-heading > p {
+    color: #756958;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    margin: 0 0 12px;
+    text-transform: uppercase;
+  }
+
+  .section-heading h2 {
+    font-size: clamp(2.2rem, 4vw, 3.7rem);
+    letter-spacing: -0.04em;
+    margin: 0 0 12px;
+  }
+
+  .section-heading > span {
+    color: #756958;
+    font-size: 0.88rem;
+  }
+
+  .group-title {
+    color: #3a3028;
+    font-size: 1.15rem;
+    margin: 42px 0 18px;
+    text-align: center;
+  }
+
+  .programming-title {
+    margin-top: 58px;
+  }
+
+  .portfolio-grid {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .portfolio-card {
+    background: #fffdf7;
+    border: 1px solid #d8ccb8;
+    min-height: 190px;
+    padding: 32px;
+  }
+
+  .portfolio-card h3 {
+    color: #3a3028;
+    font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+    margin: 0 0 14px;
+  }
+
+  .portfolio-card p {
+    color: #756958;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .process-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .step-number {
+    color: #c5a77f;
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    margin-bottom: 36px;
+  }
+
+  .project-card {
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .project-image {
+    display: block;
+    height: 220px;
+    object-fit: cover;
+    object-position: center 35%;
+    width: 100%;
+  }
+
+  .project-copy {
+    padding: 26px 28px 30px;
+  }
+
+  .contact-form {
+    background: #fffdf7;
+    border: 1px solid #d8ccb8;
+    display: grid;
+    gap: 10px;
+    margin: 0 auto;
+    max-width: 820px;
+    padding: 30px 32px;
+  }
+
+  .contact-form label {
+    color: #756958;
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    background: #fffdf7;
+    border: 1px solid #d8ccb8;
+    color: #3a3028;
+    font: inherit;
+    margin-bottom: 10px;
+    padding: 12px 13px;
+    width: 100%;
+  }
+
+  .contact-form input:focus,
+  .contact-form textarea:focus {
+    border-color: #c5a77f;
+    outline: 2px solid #c5a77f;
+    outline-offset: 2px;
+  }
+
+  .contact-form textarea {
+    resize: vertical;
+  }
+
+  .contact-form button {
+    background: #c5a77f;
+    border: 0;
+    border-radius: 999px;
+    color: #3a3028;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 700;
+    justify-self: center;
+    margin-top: 6px;
+    min-height: 44px;
+    padding: 0 24px;
+  }
+
+  @media (max-width: 900px) {
+    .process-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 700px) {
+    .portfolio-grid,
+    .process-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .portfolio-card {
+      min-height: 160px;
+      padding: 26px;
+    }
+
+    .project-card {
+      padding: 0;
+    }
+
+    .contact-form {
+      padding: 24px 20px;
+    }
+  }
+</style>
