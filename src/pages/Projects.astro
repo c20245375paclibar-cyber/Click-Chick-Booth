@@ -1,8 +1,147 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import photoEditing from "./images/photo-editing.jpg";
+import creativeLayout from "./images/creative-layout.jpg";
+import webDevelopment from "./images/web-development.jpg";
+
+const projects = [
+  {
+    title: "Photo Editing",
+    description:
+      "Retouched and enhanced photos with improved color, lighting, detail, and visual consistency.",
+    image: photoEditing,
+    imageAlt: "Camera and lenses in a black-and-white photo",
+  },
+  {
+    title: "Custom Layouts",
+    description:
+      "Designed polished photo layouts and compositions for digital presentation and creative projects.",
+    image: creativeLayout,
+    imageAlt: "Designer drawing on a digital tablet",
+  },
+  {
+    title: "Interactive Websites",
+    description:
+      "Built responsive web experiences using HTML, CSS, JavaScript, and custom interactive features.",
+    image: webDevelopment,
+    imageAlt: "Laptop displaying code on a developer's desk",
+  },
+];
 ---
 
 <BaseLayout
   title="Projects | Click Chick Booth"
-  description="Click Chick Booth events and projects."
-/>
+  description="Creative design, photo editing, layouts, and programming projects."
+>
+  <main class="projects-page">
+    <section class="projects-section" aria-labelledby="projects-title">
+      <header class="section-heading">
+        <p>Our work</p>
+        <h1 id="projects-title">Our Projects</h1>
+        <span>Creative design connected with practical programming skills.</span>
+      </header>
+
+      <div class="project-grid">
+        {projects.map((project) => (
+          <article class="project-card">
+            <img
+              class="project-image"
+              src={project.image.src}
+              width={project.image.width}
+              height={project.image.height}
+              alt={project.imageAlt}
+              loading="lazy"
+            />
+            <h2>{project.title}</h2>
+            <p>{project.description}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .projects-page {
+    background: #f5f0e6;
+    min-height: calc(100vh - 72px);
+  }
+
+  .projects-section {
+    margin: 0 auto;
+    max-width: 1380px;
+    padding: 82px clamp(24px, 7vw, 96px) 96px;
+  }
+
+  .section-heading {
+    color: #3a3028;
+    margin-bottom: 42px;
+    text-align: center;
+  }
+
+  .section-heading p {
+    color: #756958;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    margin: 0 0 12px;
+    text-transform: uppercase;
+  }
+
+  .section-heading h1 {
+    font-size: clamp(2.2rem, 4vw, 3.7rem);
+    letter-spacing: -0.04em;
+    margin: 0 0 12px;
+  }
+
+  .section-heading span {
+    color: #756958;
+    font-size: 0.88rem;
+  }
+
+  .project-grid {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .project-card {
+    background: #fffdf7;
+    border: 1px solid #d8ccb8;
+    border-radius: 0;
+    min-height: 330px;
+    overflow: hidden;
+    padding: 0 28px 30px;
+  }
+
+  .project-image {
+    display: block;
+    height: 220px;
+    margin: 0 -28px 26px;
+    object-fit: cover;
+    object-position: center 35%;
+    width: calc(100% + 56px);
+  }
+
+  .project-card h2 {
+    color: #3a3028;
+    font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+    margin: 0 0 12px;
+  }
+
+  .project-card p {
+    color: #756958;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  @media (max-width: 800px) {
+    .projects-section {
+      padding-block: 64px;
+    }
+
+    .project-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

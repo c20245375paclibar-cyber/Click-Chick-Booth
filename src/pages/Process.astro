@@ -1,63 +1,154 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
 const steps = [
   {
     number: "01",
-    title: "Tell us what you’re celebrating",
+    title: "Understand",
     description:
-      "Send your event date, location, and the kind of celebration you have in mind. A few details help us get started.",
+      "We begin by learning about your idea, your goals, and the creative or technical work you need.",
   },
   {
     number: "02",
-    title: "Choose the booth details",
+    title: "Plan & Design",
     description:
-      "We’ll talk through the setup and available options for your event, including the look and keepsake details you’d like.",
+      "We organize the project and create layouts, visual designs, or photo edits that match your vision.",
   },
   {
     number: "03",
-    title: "Confirm your booking",
+    title: "Build & Develop",
     description:
-      "Once the date and details are agreed, we’ll confirm the booking and make sure you know what to expect next.",
+      "We use HTML, CSS, JavaScript, and our programming skills to turn the approved design into a working experience.",
   },
   {
     number: "04",
-    title: "Enjoy the moment",
+    title: "Review & Refine",
     description:
-      "On the day, gather your favorite people, strike a pose, and let the booth add a little extra fun to the celebration.",
+      "We check the finished result, make improvements, and ensure the design and code work clearly across devices.",
   },
 ];
 ---
 
 <BaseLayout
   title="Process | Click Chick Booth"
-  description="The Click Chick Booth booking process."
+  description="The creative and programming process used for Click Chick Booth projects."
 >
-  <main class="page-main">
-    <section class="page-heading page-shell">
-      <p class="eyebrow"><span class="eyebrow-mark">✳</span> How it works</p>
-      <h1>From first hello<br /><em>to final pose.</em></h1>
-      <p class="page-lede">
-        Booking your booth should feel simple. Here’s how we go from your first message to a room full of camera-ready guests.
-      </p>
-    </section>
+  <main class="process-page">
+    <section class="process-section" aria-labelledby="process-title">
+      <header class="section-heading">
+        <p>How we work</p>
+        <h1 id="process-title">Our Process</h1>
+        <span>A clear four-step process from the first idea to the finished project.</span>
+      </header>
 
-    <section class="process-list page-shell" aria-label="Booking steps">
-      {steps.map((step) => (
-        <article class="process-step">
-          <span class="process-number">{step.number}</span>
-          <div>
+      <div class="process-grid">
+        {steps.map((step) => (
+          <article class="process-card">
+            <span class="step-number">{step.number}</span>
             <h2>{step.title}</h2>
             <p>{step.description}</p>
-          </div>
-          <span class="process-arrow" aria-hidden="true">↘</span>
-        </article>
-      ))}
-    </section>
-
-    <section class="page-cta page-shell">
-      <p class="eyebrow">Ready when you are</p>
-      <h2>Let’s start with<br /><em>your date.</em></h2>
-      <a class="button" href="mailto:clickchickbooth@gmail.com">Ask about your event <span aria-hidden="true">↗</span></a>
+          </article>
+        ))}
+      </div>
     </section>
   </main>
 </BaseLayout>
+
+<style>
+  .process-page {
+    background: #f5f0e6;
+    min-height: calc(100vh - 72px);
+    overflow: hidden;
+  }
+
+  .process-section {
+    margin: 0 auto;
+    max-width: 1380px;
+    min-height: 520px;
+    padding: 82px clamp(24px, 7vw, 96px) 96px;
+  }
+
+  .section-heading {
+    color: #3a3028;
+    margin-bottom: 42px;
+    text-align: center;
+  }
+
+  .section-heading p {
+    color: #756958;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    margin: 0 0 12px;
+    text-transform: uppercase;
+  }
+
+  .section-heading h1 {
+    font-size: clamp(2.2rem, 4vw, 3.7rem);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin: 0 0 12px;
+  }
+
+  .section-heading span {
+    color: #756958;
+    font-size: 0.88rem;
+  }
+
+  .process-grid {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .process-card {
+    background: #fffdf7;
+    border: 1px solid #d8ccb8;
+    border-radius: 0;
+    min-height: 220px;
+    padding: 30px 28px;
+  }
+
+  .step-number {
+    color: #c5a77f;
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    margin-bottom: 46px;
+  }
+
+  .process-card h2 {
+    color: #3a3028;
+    font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+    margin: 0 0 14px;
+  }
+
+  .process-card p {
+    color: #756958;
+    font-size: 0.86rem;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    .process-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 560px) {
+    .process-section {
+      min-height: auto;
+      padding-block: 64px;
+    }
+
+    .process-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .process-card {
+      min-height: 190px;
+    }
+  }
+</style>

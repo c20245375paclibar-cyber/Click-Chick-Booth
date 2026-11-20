@@ -1,6 +1,4 @@
 ---
-import ipot from "./images/ipot1.jpeg";
-
 const links = [
   { href: "/Services", label: "Services" },
   { href: "/Process", label: "Process" },
@@ -10,25 +8,88 @@ const links = [
 ];
 ---
 
-<header class="site-header">
+<header class="site-header is-visible">
   <div class="header-inner">
-    <a class="brand" href="/">
-      <img src={ipot.src} width={ipot.width} height={ipot.height} alt="" />
+    <a class="brand" href="/" aria-label="Click Chick Booth landing page">
+      <svg class="brand-mark" viewBox="0 0 145 145" aria-hidden="true">
+        <circle cx="47" cy="73" r="36" fill="none" stroke="currentColor" stroke-width="9" />
+        <rect x="101" y="9" width="34" height="33" fill="currentColor" />
+        <rect x="101" y="56" width="34" height="33" fill="currentColor" />
+        <rect x="101" y="103" width="34" height="33" fill="currentColor" />
+      </svg>
       <span>Click Chick Booth</span>
     </a>
     <nav aria-label="Main navigation">
       {links.map((link) => <a href={link.href}>{link.label}</a>)}
     </nav>
-    <a class="email-link" href="mailto:clickchickbooth@gmail.com">
-      Email us <span aria-hidden="true">↗</span>
-    </a>
+    <div class="header-actions">
+      <a class="email-link" href="mailto:clickchickbooth@gmail.com">
+        Email us <span aria-hidden="true">↗</span>
+      </a>
+      <button class="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode">
+        <span class="theme-icon" aria-hidden="true">☾</span>
+      </button>
+    </div>
   </div>
 </header>
 
+<script>
+  const root = document.documentElement;
+  const toggle = document.querySelector(".theme-toggle");
+  const icon = toggle?.querySelector(".theme-icon");
+
+  const savedTheme = localStorage.getItem("theme");
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  function applyTheme(theme: "light" | "dark") {
+    root.dataset.theme = theme;
+    localStorage.setItem("theme", theme);
+
+    if (toggle && icon) {
+      const isDark = theme === "dark";
+      toggle.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
+      toggle.setAttribute("title", isDark ? "Switch to light mode" : "Switch to dark mode");
+      icon.textContent = isDark ? "☀" : "☾";
+    }
+  }
+
+  applyTheme(savedTheme === "dark" || (!savedTheme && prefersDark) ? "dark" : "light");
+
+  toggle?.addEventListener("click", () => {
+    applyTheme(root.dataset.theme === "dark" ? "light" : "dark");
+  });
+
+  let previousScroll = window.scrollY;
+
+  window.addEventListener("scroll", () => {
+    const currentScroll = window.scrollY;
+    const header = document.querySelector(".site-header");
+
+    if (!header) return;
+
+    if (currentScroll < previousScroll || currentScroll < 24) {
+      header.classList.add("is-visible");
+    } else if (currentScroll > previousScroll && currentScroll > 72) {
+      header.classList.remove("is-visible");
+    }
+
+    previousScroll = currentScroll;
+  }, { passive: true });
+</script>
+
 <style>
   .site-header {
-    background: #fff;
-    border-bottom: 1px solid #e8e8e8;
+    background: #fffdf7;
+    border-bottom: 1px solid #d8ccb8;
+    position: sticky;
+    top: 0;
+    transform: translateY(0);
+    transition: transform 220ms ease, background 180ms ease;
+    z-index: 100;
+  }
+
+  .site-header:not(.is-visible) {
+    transform: translateY(-100%);
   }
 
   .header-inner {
@@ -44,7 +105,7 @@ const links = [
   .brand,
   nav a,
   .email-link {
-    color: #222;
+    color: #3a3028;
     font-size: 0.78rem;
     text-decoration: none;
     white-space: nowrap;
@@ -65,6 +126,14 @@ const links = [
     width: 38px;
   }
 
+  .brand-mark {
+    color: #3a3028;
+    display: block;
+    flex: none;
+    height: 38px;
+    width: 38px;
+  }
+
   nav {
     display: flex;
     gap: clamp(16px, 2.4vw, 34px);
@@ -78,11 +147,41 @@ const links = [
 
   nav a:hover,
   .email-link:hover {
-    color: #888;
+    color: #a78d68;
   }
 
   .email-link {
     justify-self: end;
+  }
+
+  .header-actions {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-self: end;
+  }
+
+  .theme-toggle {
+    align-items: center;
+    background: transparent;
+    border: 1px solid #d8ccb8;
+    border-radius: 999px;
+    color: #3a3028;
+    cursor: pointer;
+    display: inline-flex;
+    height: 36px;
+    justify-content: center;
+    width: 36px;
+  }
+
+  .theme-toggle:hover {
+    background: #f1e6ce;
+  }
+
+  .theme-icon {
+    font-size: 1rem;
+    line-height: 1;
   }
 
   .email-link span {
