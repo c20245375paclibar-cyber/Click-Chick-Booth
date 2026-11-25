@@ -1,0 +1,141 @@
+---
+import Card from "../../../components/Card.astro";
+import type { ImageMetadata } from "astro";
+import interactiveScreenshot from "../../images/raijen-interactive-website.jpg";
+import photoEditing from "../../images/raijen-photo-editing.jpg";
+import raijenCustomLayout from "../../images/raijen-custom-layouts.jpg";
+
+interface Project {
+  title: string;
+  description: string;
+  image: ImageMetadata;
+  imageAlt: string;
+  imageFit?: "cover" | "contain";
+  href?: string;
+}
+
+const projects: Project[] = [
+  {
+    title: "Raijen Photo Editing",
+    description:
+      "Retouched and enhanced photos with improved color, lighting, detail, and visual consistency.",
+    image: photoEditing,
+    imageAlt: "A woman looking out over the water at sunset",
+  },
+  {
+    title: "Raijen Custom Layouts",
+    description:
+      "A competition poster layout combining bold typography, imagery, and information design.",
+    image: raijenCustomLayout,
+    imageAlt: "Raijen's National Skills Competition poster layout",
+    imageFit: "contain",
+  },
+  {
+    title: "Raijen Interactive Website",
+    description:
+      "University Library Book Circulation System for managing books, students, loans, and fines.",
+    image: interactiveScreenshot,
+    imageAlt: "Library circulation system dashboard",
+    href: "https://university-library-book-circulation-system.test/",
+  },
+];
+---
+
+<section class="projects-page projects-section" id="projects" aria-labelledby="projects-title">
+      <header class="section-heading">
+        <p>Our work</p>
+        <h1 id="projects-title">Our Projects</h1>
+        <span>Creative design connected with practical programming skills.</span>
+      </header>
+
+      <div class="project-grid">
+        {projects.map((project) => (
+          project.href ? (
+            <a
+              class="project-card-link"
+              href={project.href}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Card
+                title={project.title}
+                desc={project.description}
+                image={project.image}
+                imageAlt={project.imageAlt}
+                imageFit={project.imageFit}
+              />
+            </a>
+          ) : (
+            <Card
+              title={project.title}
+              desc={project.description}
+              image={project.image}
+              imageAlt={project.imageAlt}
+              imageFit={project.imageFit}
+            />
+          )
+        ))}
+      </div>
+</section>
+
+<style>
+  .projects-page {
+    background: #f5f0e6;
+    min-height: calc(100vh - 72px);
+  }
+
+  .projects-section {
+    margin: 0 auto;
+    max-width: 1380px;
+    padding: 82px clamp(24px, 7vw, 96px) 96px;
+  }
+
+  .section-heading {
+    color: #3a3028;
+    margin-bottom: 42px;
+    text-align: center;
+  }
+
+  .section-heading p {
+    color: #756958;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    margin: 0 0 12px;
+    text-transform: uppercase;
+  }
+
+  .section-heading h1 {
+    font-size: clamp(2.2rem, 4vw, 3.7rem);
+    letter-spacing: -0.04em;
+    margin: 0 0 12px;
+  }
+
+  .section-heading span {
+    color: #756958;
+    font-size: 0.88rem;
+  }
+
+  .project-grid {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .project-card-link {
+    color: inherit;
+    display: block;
+    height: 100%;
+    text-decoration: none;
+  }
+
+  @media (max-width: 800px) {
+    .projects-section {
+      padding-block: 64px;
+    }
+
+    .project-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

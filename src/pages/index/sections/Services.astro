@@ -1,0 +1,136 @@
+---
+import Card from "../../../components/Card.astro";
+
+const nonTechnicalServices = [
+  {
+    title: "Communication",
+    description:
+      "Understanding client ideas and sharing clear feedback while planning every project.",
+  },
+  {
+    title: "Photo Editing",
+    description:
+      "Enhancing and retouching photos by improving color, lighting, clarity, and presentation.",
+  },
+  {
+    title: "Layouts & Design",
+    description:
+      "Creating thoughtful photo layouts and visual designs that match the style of each project.",
+  },
+];
+
+const programmingServices = [
+  {
+    title: "Web Development",
+    description:
+      "Building responsive websites and digital experiences using HTML, CSS, and JavaScript.",
+  },
+  {
+    title: "Interactive Features",
+    description:
+      "Developing galleries, animations, filters, user controls, and practical digital interactions.",
+  },
+  {
+    title: "Custom Programming",
+    description:
+      "Turning edited photos and creative layouts into complete, engaging web-based experiences.",
+  },
+];
+---
+
+<section class="services-page" id="services">
+    <section class="skills-section" aria-labelledby="non-technical-title">
+      <header class="section-heading">
+        <p>What we offer</p>
+        <h1 id="non-technical-title">Non-Technical Skills</h1>
+        <span>Creative skills that help us plan and improve every project.</span>
+      </header>
+
+      <div class="skill-grid">
+        {nonTechnicalServices.map((service) => (
+          <Card title={service.title} desc={service.description} />
+        ))}
+      </div>
+    </section>
+
+    <section class="skills-section programming-section" aria-labelledby="programming-title">
+      <header class="section-heading">
+        <p>What we build</p>
+        <h1 id="programming-title">Programming Skills</h1>
+        <span>Our technical skills bring creative ideas and edited photos to the web.</span>
+      </header>
+
+      <div class="skill-grid">
+        {programmingServices.map((service) => (
+          <Card title={service.title} desc={service.description} />
+        ))}
+      </div>
+    </section>
+</section>
+
+<style>
+  .services-page {
+    background: #fffdf7;
+    overflow: hidden;
+  }
+
+  .skills-section {
+    margin: 0 auto;
+    max-width: 1380px;
+    min-height: 520px;
+    padding: 82px clamp(24px, 7vw, 96px) 96px;
+  }
+
+  .programming-section {
+    background: #f5f0e6;
+    border-top: 1px solid #d8ccb8;
+  }
+
+  .section-heading {
+    color: #3a3028;
+    margin-bottom: 42px;
+    text-align: center;
+  }
+
+  .section-heading p {
+    color: #756958;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    margin: 0 0 12px;
+    text-transform: uppercase;
+  }
+
+  .section-heading h1 {
+    font-size: clamp(2.2rem, 4vw, 3.7rem);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin: 0 0 12px;
+  }
+
+  .section-heading span {
+    color: #756958;
+    font-size: 0.88rem;
+  }
+
+  .skill-grid {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media (max-width: 800px) {
+    .skills-section {
+      min-height: auto;
+      padding-block: 64px;
+    }
+
+    .skill-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .skill-card {
+      min-height: 160px;
+    }
+  }
+</style>

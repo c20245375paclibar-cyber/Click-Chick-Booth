@@ -1,0 +1,219 @@
+---
+import Header from "../components/Header.astro";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f5f0e6" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <Header />
+    <slot />
+    <script src="../scripts/animation.js"></script>
+  </body>
+</html>
+
+<style is:global>
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    background: #fffdf7;
+    color: #3a3028;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  main [id] {
+    scroll-margin-top: 88px;
+  }
+
+  :root[data-theme="dark"] body {
+    background: #241f1a;
+    color: #f5efe4;
+  }
+
+  :root[data-theme="dark"] h1,
+  :root[data-theme="dark"] h2,
+  :root[data-theme="dark"] h3,
+  :root[data-theme="dark"] p,
+  :root[data-theme="dark"] a {
+    color: #f5efe4;
+  }
+
+  :root[data-theme="dark"] .muted,
+  :root[data-theme="dark"] .eyebrow,
+  :root[data-theme="dark"] .hero-lede,
+  :root[data-theme="dark"] .page-lede,
+  :root[data-theme="dark"] .step-number,
+  :root[data-theme="dark"] .content-card p {
+    color: #c6baa6;
+  }
+
+  :root[data-theme="dark"] .button {
+    background: #f5efe4;
+    border-color: #f5efe4;
+    color: #241f1a;
+  }
+
+  :root[data-theme="dark"] .button:hover {
+    background: transparent;
+    color: #f5efe4;
+  }
+
+  :root[data-theme="dark"] .contact-form button {
+    background: #f5efe4;
+    color: #241f1a;
+  }
+
+  :root[data-theme="dark"] .site-header {
+    background: #241f1a;
+    border-bottom-color: #594f43;
+  }
+
+  :root[data-theme="dark"] .brand,
+  :root[data-theme="dark"] nav a,
+  :root[data-theme="dark"] .email-link,
+  :root[data-theme="dark"] .theme-toggle,
+  :root[data-theme="dark"] .brand-mark {
+    color: #f5efe4;
+  }
+
+  :root[data-theme="dark"] .theme-toggle {
+    border-color: #594f43;
+  }
+
+  :root[data-theme="dark"] .theme-toggle:hover {
+    background: #3a3228;
+  }
+
+  :root[data-theme="dark"] .services-page,
+  :root[data-theme="dark"] .process-page,
+  :root[data-theme="dark"] .about-page,
+  :root[data-theme="dark"] .projects-page,
+  :root[data-theme="dark"] .contact-page,
+  :root[data-theme="dark"] .portfolio-section,
+  :root[data-theme="dark"] .portfolio-section-alt,
+  :root[data-theme="dark"] .programming-section {
+    background: #241f1a;
+  }
+
+  :root[data-theme="dark"] .programming-section,
+  :root[data-theme="dark"] .content-card,
+  :root[data-theme="dark"] .contact-form,
+  :root[data-theme="dark"] .contact-form input,
+  :root[data-theme="dark"] .contact-form textarea {
+    background: #2c261f;
+    border-color: #594f43;
+  }
+
+  :root[data-theme="dark"] .section-heading,
+  :root[data-theme="dark"] .section-heading h1,
+  :root[data-theme="dark"] .content-card h2,
+  :root[data-theme="dark"] .contact-form input,
+  :root[data-theme="dark"] .contact-form textarea {
+    color: #f5efe4;
+  }
+
+  :root[data-theme="dark"] .section-heading span,
+  :root[data-theme="dark"] .section-heading p,
+  :root[data-theme="dark"] .content-card p,
+  :root[data-theme="dark"] .contact-form label {
+    color: #c6baa6;
+  }
+
+  :root[data-theme="dark"] .portfolio-card p {
+    color: #c6baa6;
+  }
+
+  a:focus-visible {
+    outline: 2px solid #3a3028;
+    outline-offset: 4px;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 700ms ease var(--reveal-delay, 0ms),
+      transform 700ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .hero-copy,
+  .hero-code,
+  .section-heading {
+    will-change: opacity, transform;
+  }
+
+  .content-card,
+  .contact-form {
+    transition:
+      opacity 700ms ease var(--reveal-delay, 0ms),
+      transform 700ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+      border-color 220ms ease,
+      box-shadow 220ms ease,
+      background 220ms ease;
+  }
+
+  .content-card:hover {
+    border-color: #c5a77f;
+    box-shadow: 0 18px 36px rgba(58, 48, 40, 0.08);
+    transform: translateY(-5px);
+  }
+
+  nav a,
+  .brand,
+  .email-link,
+  .button,
+  .text-link,
+  .contact-form button {
+    transition:
+      color 180ms ease,
+      background 180ms ease,
+      border-color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .button:hover,
+  .contact-form button:hover {
+    transform: translateY(-2px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+
+    .reveal {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>

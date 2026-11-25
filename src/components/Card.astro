@@ -1,0 +1,127 @@
+---
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  title: string;
+  desc: string;
+  eyebrow?: string;
+  image?: ImageMetadata;
+  imageAlt?: string;
+  imageFit?: "cover" | "contain";
+}
+
+const { title, desc, eyebrow, image, imageAlt = "", imageFit = "cover" } = Astro.props;
+---
+
+<article class="content-card">
+  {image && (
+    <img
+      class:list={[
+        "content-card-image",
+        imageFit === "contain" && "content-card-image-contain",
+      ]}
+      src={image.src}
+      width={image.width}
+      height={image.height}
+      alt={imageAlt}
+      loading="lazy"
+    />
+  )}
+  {eyebrow && <span class="content-card-eyebrow">{eyebrow}</span>}
+  <h2>{title}</h2>
+  <p>{desc}</p>
+</article>
+
+<style>
+  .content-card {
+    background: #fffdf7;
+    border: 1px solid #d8ccb8;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(58, 48, 40, 0.045);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 210px;
+    padding: 30px 28px;
+    transition:
+      border-color 180ms ease,
+      box-shadow 180ms ease,
+      transform 180ms ease,
+      background 180ms ease;
+  }
+
+  .content-card:hover {
+    border-color: #c5a77f;
+    box-shadow: 0 14px 30px rgba(58, 48, 40, 0.09);
+    transform: translateY(-3px);
+  }
+
+  .content-card-image {
+    border-radius: 7px;
+    display: block;
+    height: 190px;
+    margin: -12px -10px 10px;
+    object-fit: cover;
+    width: calc(100% + 20px);
+  }
+
+  .content-card-image-contain {
+    object-fit: contain;
+  }
+
+  .content-card-eyebrow {
+    color: #c19661;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    margin-bottom: 24px;
+  }
+
+  .content-card h2 {
+    color: #3a3028;
+    font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+    margin: 0;
+  }
+
+  .content-card p {
+    color: #756958;
+    font-size: 0.88rem;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  :global(:root[data-theme="dark"]) .content-card {
+    background: #2c261f;
+    border-color: #594f43;
+  }
+
+  :global(:root[data-theme="dark"]) .content-card h2 {
+    color: #f5efe4;
+  }
+
+  :global(:root[data-theme="dark"]) .content-card p {
+    color: #c6baa6;
+  }
+
+  :global(:root[data-theme="dark"]) .content-card-eyebrow {
+    color: #d6b585;
+  }
+
+  @media (max-width: 560px) {
+    .content-card {
+      min-height: 180px;
+      padding: 24px 22px;
+    }
+
+    .content-card-image {
+      height: 180px;
+    }
+
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .content-card {
+      transition: none;
+    }
+  }
+</style>

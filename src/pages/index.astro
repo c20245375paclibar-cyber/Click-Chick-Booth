@@ -1,16 +1,23 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "./index/sections/Hero.astro";
+import Services from "./index/sections/Services.astro";
+import Process from "./index/sections/Process.astro";
+import About from "./index/sections/About.astro";
+import Projects from "./index/sections/Projects.astro";
+import Contact from "./index/sections/Contact.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout
+  title="Click Chick Booth"
+  description="Click Chick Booth combines photo editing, design, and programming to create polished digital projects."
+>
+  <main>
+    <Hero />
+    <Services />
+    <Process />
+    <About />
+    <Projects />
+    <Contact />
+  </main>
+</BaseLayout>
