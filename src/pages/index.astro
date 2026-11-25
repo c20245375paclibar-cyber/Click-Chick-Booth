@@ -1,7 +1,11 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Hero from "../components/Hero.astro";
-import PortfolioSections from "../components/PortfolioSections.astro";
+import Hero from "./index/sections/Hero.astro";
+import Services from "./index/sections/Services.astro";
+import Process from "./index/sections/Process.astro";
+import About from "./index/sections/About.astro";
+import Projects from "./index/sections/Projects.astro";
+import Contact from "./index/sections/Contact.astro";
 ---
 
 <BaseLayout
@@ -10,6 +14,10 @@ import PortfolioSections from "../components/PortfolioSections.astro";
 >
   <main>
     <Hero />
-    <PortfolioSections />
+    <Services />
+    <Process />
+    <About />
+    <Projects />
+    <Contact />
   </main>
 </BaseLayout>

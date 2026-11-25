@@ -8,7 +8,7 @@ const links = [
 ];
 ---
 
-<header class="site-header is-visible">
+<header class="site-header">
   <div class="header-inner">
     <a class="brand" href="/" aria-label="Click Chick Booth landing page">
       <svg class="brand-mark" viewBox="0 0 145 145" aria-hidden="true">
@@ -59,22 +59,6 @@ const links = [
     applyTheme(root.dataset.theme === "dark" ? "light" : "dark");
   });
 
-  let previousScroll = window.scrollY;
-
-  window.addEventListener("scroll", () => {
-    const currentScroll = window.scrollY;
-    const header = document.querySelector(".site-header");
-
-    if (!header) return;
-
-    if (currentScroll < previousScroll || currentScroll < 24) {
-      header.classList.add("is-visible");
-    } else if (currentScroll > previousScroll && currentScroll > 72) {
-      header.classList.remove("is-visible");
-    }
-
-    previousScroll = currentScroll;
-  }, { passive: true });
 </script>
 
 <style>
@@ -83,13 +67,8 @@ const links = [
     border-bottom: 1px solid #d8ccb8;
     position: sticky;
     top: 0;
-    transform: translateY(0);
-    transition: transform 220ms ease, background 180ms ease;
+    transition: background 180ms ease;
     z-index: 100;
-  }
-
-  .site-header:not(.is-visible) {
-    transform: translateY(-100%);
   }
 
   .header-inner {
