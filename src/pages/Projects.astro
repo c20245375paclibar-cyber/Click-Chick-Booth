@@ -44,6 +44,7 @@ const projects = [
       <div class="project-grid">
         {projects.map((project) => (
           <article class="project-card">
+          <div class="project-image-wrap">
             <img
               class="project-image"
               src={project.image.src}
@@ -52,6 +53,8 @@ const projects = [
               alt={project.imageAlt}
               loading="lazy"
             />
+            <span class="project-image-overlay" aria-hidden="true"></span>
+          </div>
             <h2>{project.title}</h2>
             <p>{project.description}</p>
           </article>
@@ -63,40 +66,48 @@ const projects = [
 
 <style>
   .projects-page {
-    background: #f5f0e6;
+    background: linear-gradient(180deg, #f8f4ec, #f2eadc);
     min-height: calc(100vh - 72px);
   }
 
   .projects-section {
     margin: 0 auto;
     max-width: 1380px;
-    padding: 82px clamp(24px, 7vw, 96px) 96px;
+    padding: 96px clamp(24px, 7vw, 96px) 110px;
   }
 
   .section-heading {
     color: #3a3028;
-    margin-bottom: 42px;
+    margin: 0 auto 50px;
+    max-width: 720px;
     text-align: center;
   }
 
   .section-heading p {
-    color: #756958;
+    background: #f1e6ce;
+    border-radius: 999px;
+    color: #8d6a45;
+    display: inline-flex;
     font-size: 0.68rem;
     font-weight: 700;
-    letter-spacing: 0.18em;
-    margin: 0 0 12px;
+    letter-spacing: 0.14em;
+    margin: 0 0 15px;
+    padding: 8px 12px;
     text-transform: uppercase;
   }
 
   .section-heading h1 {
     font-size: clamp(2.2rem, 4vw, 3.7rem);
-    letter-spacing: -0.04em;
-    margin: 0 0 12px;
+    font-weight: 600;
+    letter-spacing: -0.055em;
+    line-height: 1.02;
+    margin: 0 0 14px;
   }
 
   .section-heading span {
     color: #756958;
     font-size: 0.88rem;
+    line-height: 1.7;
   }
 
   .project-grid {
@@ -108,24 +119,60 @@ const projects = [
   .project-card {
     background: #fffdf7;
     border: 1px solid #d8ccb8;
-    border-radius: 0;
+    border-radius: 16px;
+    box-shadow: 0 10px 28px rgba(58, 48, 40, 0.055);
     min-height: 330px;
     overflow: hidden;
     padding: 0 28px 30px;
+    transition:
+      box-shadow 220ms ease,
+      transform 220ms ease;
+  }
+
+  .project-card:hover {
+    box-shadow: 0 18px 36px rgba(58, 48, 40, 0.12);
+    transform: translateY(-5px);
+  }
+
+  .project-image-wrap {
+    display: block;
+    height: 220px;
+    margin: 0 -28px 26px;
+    overflow: hidden;
+    position: relative;
+    width: calc(100% + 56px);
   }
 
   .project-image {
     display: block;
-    height: 220px;
-    margin: 0 -28px 26px;
+    height: 100%;
     object-fit: cover;
     object-position: center 35%;
-    width: calc(100% + 56px);
+    transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+    width: 100%;
+  }
+
+  .project-image-overlay {
+    background: rgba(36, 31, 26, 0.22);
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    transition: opacity 240ms ease;
+  }
+
+  .project-card:hover .project-image {
+    transform: scale(1.07);
+  }
+
+  .project-card:hover .project-image-overlay {
+    opacity: 1;
   }
 
   .project-card h2 {
     color: #3a3028;
     font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+    letter-spacing: -0.025em;
     margin: 0 0 12px;
   }
 
@@ -137,11 +184,41 @@ const projects = [
 
   @media (max-width: 800px) {
     .projects-section {
-      padding-block: 64px;
+      padding-block: 72px;
     }
 
     .project-grid {
       grid-template-columns: 1fr;
+    }
+  }
+
+  :global(:root[data-theme="dark"]) .projects-page {
+    background: #241f1a;
+  }
+
+  :global(:root[data-theme="dark"]) .project-card {
+    background: #2c261f;
+    border-color: #594f43;
+  }
+
+  :global(:root[data-theme="dark"]) .project-card h2 {
+    color: #f5efe4;
+  }
+
+  :global(:root[data-theme="dark"]) .project-card p {
+    color: #c6baa6;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-card,
+    .project-image,
+    .project-image-overlay {
+      transition: none;
+    }
+
+    .project-card:hover,
+    .project-card:hover .project-image {
+      transform: none;
     }
   }
 </style>

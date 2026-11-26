@@ -4,16 +4,19 @@ import Card from "../../../components/Card.astro";
 const nonTechnicalServices = [
   {
     title: "Communication",
+    icon: "chat",
     description:
       "Understanding client ideas and sharing clear feedback while planning every project.",
   },
   {
     title: "Photo Editing",
+    icon: "image",
     description:
       "Enhancing and retouching photos by improving color, lighting, clarity, and presentation.",
   },
   {
     title: "Layouts & Design",
+    icon: "layout",
     description:
       "Creating thoughtful photo layouts and visual designs that match the style of each project.",
   },
@@ -22,16 +25,19 @@ const nonTechnicalServices = [
 const programmingServices = [
   {
     title: "Web Development",
+    icon: "code",
     description:
       "Building responsive websites and digital experiences using HTML, CSS, and JavaScript.",
   },
   {
     title: "Interactive Features",
+    icon: "sparkles",
     description:
       "Developing galleries, animations, filters, user controls, and practical digital interactions.",
   },
   {
     title: "Custom Programming",
+    icon: "database",
     description:
       "Turning edited photos and creative layouts into complete, engaging web-based experiences.",
   },
@@ -48,7 +54,7 @@ const programmingServices = [
 
       <div class="skill-grid">
         {nonTechnicalServices.map((service) => (
-          <Card title={service.title} desc={service.description} />
+          <Card title={service.title} desc={service.description} icon={service.icon} />
         ))}
       </div>
     </section>
@@ -62,7 +68,7 @@ const programmingServices = [
 
       <div class="skill-grid">
         {programmingServices.map((service) => (
-          <Card title={service.title} desc={service.description} />
+          <Card title={service.title} desc={service.description} icon={service.icon} />
         ))}
       </div>
     </section>
@@ -77,52 +83,57 @@ const programmingServices = [
   .skills-section {
     margin: 0 auto;
     max-width: 1380px;
-    min-height: 520px;
-    padding: 82px clamp(24px, 7vw, 96px) 96px;
+    padding: 96px clamp(24px, 7vw, 96px);
   }
 
   .programming-section {
-    background: #f5f0e6;
+    background: linear-gradient(135deg, #f5f0e6, #eee4d3);
     border-top: 1px solid #d8ccb8;
   }
 
   .section-heading {
     color: #3a3028;
-    margin-bottom: 42px;
+    margin: 0 auto 46px;
+    max-width: 720px;
     text-align: center;
   }
 
   .section-heading p {
-    color: #756958;
+    background: #f1e6ce;
+    border-radius: 999px;
+    color: #8d6a45;
+    display: inline-flex;
     font-size: 0.68rem;
     font-weight: 700;
-    letter-spacing: 0.18em;
-    margin: 0 0 12px;
+    letter-spacing: 0.14em;
+    margin: 0 0 15px;
+    padding: 8px 12px;
     text-transform: uppercase;
   }
 
   .section-heading h1 {
     font-size: clamp(2.2rem, 4vw, 3.7rem);
-    letter-spacing: -0.04em;
-    line-height: 1;
-    margin: 0 0 12px;
+    font-weight: 600;
+    letter-spacing: -0.055em;
+    line-height: 1.02;
+    margin: 0 0 14px;
   }
 
   .section-heading span {
     color: #756958;
     font-size: 0.88rem;
+    line-height: 1.7;
   }
 
   .skill-grid {
     display: grid;
-    gap: 24px;
+    gap: 20px;
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   @media (max-width: 800px) {
     .skills-section {
-      min-height: auto;
-      padding-block: 64px;
+      padding-block: 72px;
     }
 
     .skill-grid {

@@ -4,39 +4,78 @@ import type { ImageMetadata } from "astro";
 import interactiveScreenshot from "../../images/raijen-interactive-website.jpg";
 import photoEditing from "../../images/raijen-photo-editing.jpg";
 import raijenCustomLayout from "../../images/raijen-custom-layouts.jpg";
+import elsiePhotoEditing from "../../images/elsie-photo-editing.jpg";
+import elsieCustomLayouts from "../../images/elsie-custom-layouts.jpg";
+import elsieInteractiveWebsite from "../../images/elsie-interactive-website.jpg";
 
 interface Project {
   title: string;
   description: string;
+  category: "Photo Editing" | "Custom Layouts" | "Web Systems";
   image: ImageMetadata;
   imageAlt: string;
   imageFit?: "cover" | "contain";
   href?: string;
+  features: string[];
 }
 
 const projects: Project[] = [
   {
     title: "Raijen Photo Editing",
+    category: "Photo Editing",
     description:
       "Retouched and enhanced photos with improved color, lighting, detail, and visual consistency.",
     image: photoEditing,
     imageAlt: "A woman looking out over the water at sunset",
+    features: ["Color and lighting", "Photo retouching", "Visual consistency"],
   },
   {
     title: "Raijen Custom Layouts",
+    category: "Custom Layouts",
     description:
       "A competition poster layout combining bold typography, imagery, and information design.",
     image: raijenCustomLayout,
     imageAlt: "Raijen's National Skills Competition poster layout",
     imageFit: "contain",
+    features: ["Poster composition", "Typography", "Information design"],
   },
   {
     title: "Raijen Interactive Website",
+    category: "Web Systems",
     description:
       "University Library Book Circulation System for managing books, students, loans, and fines.",
     image: interactiveScreenshot,
     imageAlt: "Library circulation system dashboard",
     href: "https://university-library-book-circulation-system.test/",
+    features: ["Book circulation", "Student records", "Loans and fines"],
+  },
+  {
+    title: "Elsie Photo Editing",
+    category: "Photo Editing",
+    description:
+      "Enhanced coastal sunset photography with richer color, balanced lighting, and clearer visual detail.",
+    image: elsiePhotoEditing,
+    imageAlt: "A coastal sunset with boats and dramatic orange clouds",
+    features: ["Color balancing", "Light and contrast", "Coastal photography"],
+  },
+  {
+    title: "Elsie Custom Layouts",
+    category: "Custom Layouts",
+    description:
+      "A reflective wolf-themed poster layout combining snowy scenery, typography, and mirrored visual composition.",
+    image: elsieCustomLayouts,
+    imageAlt: "Wolf poster layout with mirrored reflection and snowy mountain scenery",
+    imageFit: "contain",
+    features: ["Illustrated composition", "Snowy scenery", "Mirrored reflection"],
+  },
+  {
+    title: "Elsie Interactive Website",
+    category: "Web Systems",
+    description:
+      "Express Courier Package Delivery System for managing parcels, tracking shipment activity, and overseeing customers, transit hubs, and payments.",
+    image: elsieInteractiveWebsite,
+    imageAlt: "Express Courier PDS dashboard showing parcel, customer, transit hub, and payment summaries",
+    features: ["Parcel management", "Customers", "Transit hubs", "Payments"],
   },
 ];
 ---
@@ -48,72 +87,113 @@ const projects: Project[] = [
         <span>Creative design connected with practical programming skills.</span>
       </header>
 
+      <div class="project-filters" role="group" aria-label="Filter projects by service">
+        <button type="button" class="is-selected" data-project-filter="all" aria-pressed="true">All work</button>
+        <button type="button" data-project-filter="Photo Editing" aria-pressed="false">Photo editing</button>
+        <button type="button" data-project-filter="Custom Layouts" aria-pressed="false">Custom layouts</button>
+        <button type="button" data-project-filter="Web Systems" aria-pressed="false">Web systems</button>
+      </div>
+      <p class="project-count" data-project-count aria-live="polite">6 projects</p>
+
       <div class="project-grid">
-        {projects.map((project) => (
-          project.href ? (
-            <a
-              class="project-card-link"
-              href={project.href}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Card
-                title={project.title}
-                desc={project.description}
-                image={project.image}
-                imageAlt={project.imageAlt}
-                imageFit={project.imageFit}
-              />
-            </a>
-          ) : (
+        {projects.map((project, index) => (
+          <article
+            class="project-card-trigger"
+            role="button"
+            tabindex="0"
+            aria-haspopup="dialog"
+            aria-controls="project-case-study"
+            aria-label={`View details for ${project.title}`}
+            data-project-index={index}
+            data-project-category={project.category}
+            data-project-title={project.title}
+            data-project-description={project.description}
+            data-project-image={project.image.src}
+            data-project-image-alt={project.imageAlt}
+            data-project-features={project.features.join("|")}
+            data-project-fit={project.imageFit ?? "cover"}
+            data-project-href={project.href}
+          >
             <Card
               title={project.title}
               desc={project.description}
               image={project.image}
               imageAlt={project.imageAlt}
               imageFit={project.imageFit}
+              interactiveImage
             />
-          )
+          </article>
         ))}
       </div>
+
+      <dialog class="project-dialog" id="project-case-study" aria-labelledby="project-dialog-title">
+        <button class="project-dialog-close" type="button" data-dialog-close aria-label="Close project details">×</button>
+        <div class="project-dialog-image-wrap">
+          <img
+            class="project-dialog-image"
+            data-dialog-image
+            src={projects[0].image.src}
+            width={projects[0].image.width}
+            height={projects[0].image.height}
+            alt={projects[0].imageAlt}
+          />
+        </div>
+        <div class="project-dialog-copy">
+          <p class="project-dialog-category" data-dialog-category></p>
+          <h2 id="project-dialog-title" data-dialog-title></h2>
+          <p class="project-dialog-description" data-dialog-description></p>
+          <div class="project-dialog-features" data-dialog-features aria-label="Project highlights"></div>
+          <a class="project-dialog-link" data-dialog-link target="_blank" rel="noopener noreferrer" hidden>
+            Visit project <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </dialog>
 </section>
 
 <style>
   .projects-page {
-    background: #f5f0e6;
+    background: linear-gradient(180deg, #f8f4ec, #f2eadc);
     min-height: calc(100vh - 72px);
   }
 
   .projects-section {
     margin: 0 auto;
     max-width: 1380px;
-    padding: 82px clamp(24px, 7vw, 96px) 96px;
+    padding: 96px clamp(24px, 7vw, 96px) 110px;
   }
 
   .section-heading {
     color: #3a3028;
-    margin-bottom: 42px;
+    margin: 0 auto 50px;
+    max-width: 720px;
     text-align: center;
   }
 
   .section-heading p {
-    color: #756958;
+    background: #f1e6ce;
+    border-radius: 999px;
+    color: #8d6a45;
+    display: inline-flex;
     font-size: 0.68rem;
     font-weight: 700;
-    letter-spacing: 0.18em;
-    margin: 0 0 12px;
+    letter-spacing: 0.14em;
+    margin: 0 0 15px;
+    padding: 8px 12px;
     text-transform: uppercase;
   }
 
   .section-heading h1 {
     font-size: clamp(2.2rem, 4vw, 3.7rem);
-    letter-spacing: -0.04em;
-    margin: 0 0 12px;
+    font-weight: 600;
+    letter-spacing: -0.055em;
+    line-height: 1.02;
+    margin: 0 0 14px;
   }
 
   .section-heading span {
     color: #756958;
     font-size: 0.88rem;
+    line-height: 1.7;
   }
 
   .project-grid {
@@ -122,20 +202,387 @@ const projects: Project[] = [
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .project-card-link {
+  .project-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .project-filters button {
+    background: rgba(255, 253, 247, 0.72);
+    border: 1px solid #d8ccb8;
+    border-radius: 999px;
+    color: #756958;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.75rem;
+    font-weight: 600;
+    min-height: 40px;
+    padding: 0 16px;
+    transition: background 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+  }
+
+  .project-filters button:hover {
+    border-color: #c5a77f;
+    transform: translateY(-2px);
+  }
+
+  .project-filters button.is-selected {
+    background: #3a3028;
+    border-color: #3a3028;
+    color: #fffdf7;
+  }
+
+  .project-count {
+    color: #756958;
+    font-size: 0.72rem;
+    margin: 14px 0 22px;
+    text-align: center;
+  }
+
+  .project-card-trigger {
+    background: transparent;
+    border: 0;
+    border-radius: 16px;
     color: inherit;
+    cursor: pointer;
     display: block;
     height: 100%;
+    min-width: 0;
+    padding: 0;
+    text-align: left;
+  }
+
+  .project-card-trigger:focus-visible {
+    outline: 3px solid #a78d68;
+    outline-offset: 5px;
+  }
+
+  .project-card-trigger[hidden] {
+    display: none;
+  }
+
+  .project-dialog[open] {
+    background: #fffdf7;
+    border: 1px solid #d8ccb8;
+    border-radius: 20px;
+    box-shadow: 0 28px 90px rgba(20, 17, 14, 0.3);
+    color: #3a3028;
+    grid-template-columns: minmax(0, 1.05fr) minmax(260px, 0.95fr);
+    max-height: calc(100vh - 40px);
+    max-width: 960px;
+    overflow: auto;
+    padding: 0;
+    position: fixed;
+    width: calc(100% - 40px);
+  }
+
+  .project-dialog::backdrop {
+    background: rgba(27, 24, 20, 0.72);
+    backdrop-filter: blur(5px);
+  }
+
+  .project-dialog-image-wrap {
+    align-items: center;
+    aspect-ratio: 1.12;
+    background: #f1e6ce;
+    display: flex;
+    justify-content: center;
+    min-height: 320px;
+    overflow: hidden;
+  }
+
+  .project-dialog-image {
+    display: block;
+    height: 100%;
+    object-fit: contain;
+    width: 100%;
+  }
+
+  .project-dialog-copy {
+    align-self: center;
+    padding: clamp(28px, 5vw, 56px);
+  }
+
+  .project-dialog-category {
+    color: #8d6a45;
+    font-size: 0.67rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    margin: 0 0 14px;
+    text-transform: uppercase;
+  }
+
+  .project-dialog-copy h2 {
+    color: #3a3028;
+    font-size: clamp(1.7rem, 3.2vw, 2.7rem);
+    letter-spacing: -0.055em;
+    line-height: 1.04;
+    margin: 0 0 18px;
+  }
+
+  .project-dialog-description {
+    color: #756958;
+    font-size: 0.93rem;
+    line-height: 1.75;
+    margin: 0;
+  }
+
+  .project-dialog-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 24px;
+  }
+
+  .project-dialog-features span {
+    background: #f1e6ce;
+    border-radius: 999px;
+    color: #6d5139;
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 8px 11px;
+  }
+
+  .project-dialog-link {
+    align-items: center;
+    background: #3a3028;
+    border-radius: 999px;
+    color: #fffdf7;
+    display: inline-flex;
+    font-size: 0.75rem;
+    font-weight: 700;
+    gap: 10px;
+    margin-top: 28px;
+    padding: 13px 17px;
     text-decoration: none;
+    transition: background 180ms ease, transform 180ms ease;
+  }
+
+  .project-dialog-link:hover {
+    background: #6d5139;
+    transform: translateY(-2px);
+  }
+
+  .project-dialog-link[hidden] {
+    display: none;
+  }
+
+  .project-dialog-close {
+    align-items: center;
+    background: rgba(255, 253, 247, 0.94);
+    border: 1px solid rgba(216, 204, 184, 0.8);
+    border-radius: 50%;
+    color: #3a3028;
+    cursor: pointer;
+    display: inline-flex;
+    font: inherit;
+    font-size: 1.35rem;
+    height: 42px;
+    justify-content: center;
+    line-height: 1;
+    position: absolute;
+    right: 14px;
+    top: 14px;
+    width: 42px;
+    z-index: 1;
+  }
+
+  .project-dialog-close:hover {
+    background: #f1e6ce;
+  }
+
+  :global(:root[data-theme="dark"]) .project-filters button {
+    background: #2c261f;
+    border-color: #594f43;
+    color: #c6baa6;
+  }
+
+  :global(:root[data-theme="dark"]) .project-filters button.is-selected {
+    background: #d3b58a;
+    border-color: #d3b58a;
+    color: #241f1a;
+  }
+
+  :global(:root[data-theme="dark"]) .project-dialog[open] {
+    background: #2c261f;
+    border-color: #594f43;
+    color: #f5efe4;
+  }
+
+  :global(:root[data-theme="dark"]) .project-dialog-copy h2 {
+    color: #f5efe4;
+  }
+
+  :global(:root[data-theme="dark"]) .project-dialog-description {
+    color: #c6baa6;
+  }
+
+  :global(:root[data-theme="dark"]) .project-dialog-features span {
+    background: #3a3228;
+    color: #d3b58a;
+  }
+
+  :global(:root[data-theme="dark"]) .project-dialog-link {
+    background: #d3b58a;
+    color: #241f1a;
   }
 
   @media (max-width: 800px) {
-    .projects-section {
-      padding-block: 64px;
+    .project-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    .project-dialog[open] {
+      grid-template-columns: 1fr;
+      max-width: 560px;
+    }
+
+    .project-dialog-image-wrap {
+      aspect-ratio: 1.65;
+      min-height: 220px;
+    }
+  }
+
+  @media (max-width: 560px) {
     .project-grid {
       grid-template-columns: 1fr;
     }
+
+    .project-dialog[open] {
+      width: calc(100% - 24px);
+    }
+
+    .project-dialog-copy {
+      padding: 28px 22px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-filters button,
+    .project-dialog-link {
+      transition: none;
+    }
+
+    .project-filters button:hover,
+    .project-dialog-link:hover {
+      transform: none;
+    }
   }
 </style>
+
+<script>
+  const projectSection = document.querySelector<HTMLElement>("#projects");
+  const projectFilters = projectSection?.querySelectorAll<HTMLButtonElement>("[data-project-filter]");
+  const projectTriggers = Array.from(
+    projectSection?.querySelectorAll<HTMLElement>(".project-card-trigger") ?? []
+  );
+  const projectCount = projectSection?.querySelector<HTMLElement>("[data-project-count]");
+  const projectDialog = projectSection?.querySelector<HTMLDialogElement>(".project-dialog");
+  const dialogImage = projectSection?.querySelector<HTMLImageElement>("[data-dialog-image]");
+  const dialogCategory = projectSection?.querySelector<HTMLElement>("[data-dialog-category]");
+  const dialogTitle = projectSection?.querySelector<HTMLElement>("[data-dialog-title]");
+  const dialogDescription = projectSection?.querySelector<HTMLElement>("[data-dialog-description]");
+  const dialogFeatures = projectSection?.querySelector<HTMLElement>("[data-dialog-features]");
+  const dialogLink = projectSection?.querySelector<HTMLAnchorElement>("[data-dialog-link]");
+
+  projectFilters?.forEach((filterButton) => {
+    filterButton.addEventListener("click", () => {
+      const selectedCategory = filterButton.dataset.projectFilter ?? "all";
+      let visibleCount = 0;
+
+      projectTriggers.forEach((trigger) => {
+        const isVisible =
+          selectedCategory === "all" || trigger.dataset.projectCategory === selectedCategory;
+        trigger.hidden = !isVisible;
+        if (isVisible) visibleCount += 1;
+      });
+
+      projectFilters.forEach((button) => {
+        const isSelected = button === filterButton;
+        button.classList.toggle("is-selected", isSelected);
+        button.setAttribute("aria-pressed", String(isSelected));
+      });
+
+      if (projectCount) {
+        projectCount.textContent = `${visibleCount} ${visibleCount === 1 ? "project" : "projects"}`;
+      }
+    });
+  });
+
+  function showProjectDetails(trigger: HTMLElement) {
+    const {
+      projectTitle,
+      projectDescription,
+      projectImage,
+      projectImageAlt,
+      projectCategory,
+      projectFeatures,
+      projectFit,
+      projectHref,
+    } = trigger.dataset;
+
+    if (
+      !projectDialog ||
+      !dialogImage ||
+      !dialogCategory ||
+      !dialogTitle ||
+      !dialogDescription ||
+      !dialogFeatures ||
+      !projectTitle ||
+      !projectDescription ||
+      !projectImage ||
+      !projectImageAlt ||
+      !projectCategory
+    ) {
+      return;
+    }
+
+    dialogImage.src = projectImage;
+    dialogImage.alt = projectImageAlt;
+    dialogImage.style.objectFit = projectFit === "contain" ? "contain" : "cover";
+    dialogCategory.textContent = projectCategory;
+    dialogTitle.textContent = projectTitle;
+    dialogDescription.textContent = projectDescription;
+
+    const features = (projectFeatures ?? "").split("|").filter(Boolean);
+    dialogFeatures.replaceChildren(
+      ...features.map((feature) => {
+        const tag = document.createElement("span");
+        tag.textContent = feature;
+        return tag;
+      })
+    );
+
+    if (dialogLink) {
+      if (projectHref) {
+        dialogLink.href = projectHref;
+        dialogLink.hidden = false;
+      } else {
+        dialogLink.removeAttribute("href");
+        dialogLink.hidden = true;
+      }
+    }
+
+    projectDialog.showModal();
+  }
+
+  projectTriggers.forEach((trigger) => {
+    trigger.addEventListener("click", () => showProjectDetails(trigger));
+    trigger.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        showProjectDetails(trigger);
+      }
+    });
+  });
+
+  projectSection?.querySelector("[data-dialog-close]")?.addEventListener("click", () => {
+    projectDialog?.close();
+  });
+
+  projectDialog?.addEventListener("click", (event) => {
+    if (event.target === projectDialog) projectDialog.close();
+  });
+</script>

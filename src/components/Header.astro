@@ -19,7 +19,7 @@ const links = [
       </svg>
       <span>Click Chick Booth</span>
     </a>
-    <nav aria-label="Main navigation">
+    <nav class="main-nav" id="main-navigation" aria-label="Main navigation">
       {links.map((link) => <a href={link.href}>{link.label}</a>)}
     </nav>
     <div class="header-actions">
@@ -29,6 +29,17 @@ const links = [
       <button class="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode">
         <span class="theme-icon" aria-hidden="true">☾</span>
       </button>
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-controls="main-navigation"
+        aria-expanded="false"
+        aria-label="Open navigation menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </div>
 </header>
@@ -37,6 +48,9 @@ const links = [
   const root = document.documentElement;
   const toggle = document.querySelector(".theme-toggle");
   const icon = toggle?.querySelector(".theme-icon");
+  const menuToggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
+  const navigation = document.querySelector<HTMLElement>(".main-nav");
+  const navigationLinks = document.querySelectorAll<HTMLAnchorElement>(".main-nav a");
 
   const savedTheme = localStorage.getItem("theme");
   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -59,15 +73,64 @@ const links = [
     applyTheme(root.dataset.theme === "dark" ? "light" : "dark");
   });
 
+  function closeMenu() {
+    navigation?.classList.remove("is-open");
+    menuToggle?.setAttribute("aria-expanded", "false");
+    menuToggle?.setAttribute("aria-label", "Open navigation menu");
+  }
+
+  menuToggle?.addEventListener("click", () => {
+    const isOpen = menuToggle.getAttribute("aria-expanded") !== "true";
+    menuToggle.setAttribute("aria-expanded", String(isOpen));
+    menuToggle.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+    navigation?.classList.toggle("is-open", isOpen);
+  });
+
+  navigationLinks.forEach((link) => {
+    link.addEventListener("click", closeMenu);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeMenu();
+  });
+
+  if ("IntersectionObserver" in window) {
+    const observedSections = Array.from(navigationLinks)
+      .map((link) => {
+        const targetUrl = new URL(link.href);
+        const section = document.querySelector(targetUrl.hash);
+        return targetUrl.pathname === window.location.pathname && section
+          ? { link, section }
+          : null;
+      })
+      .filter((entry): entry is { link: HTMLAnchorElement; section: Element } => entry !== null);
+
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
+          navigationLinks.forEach((link) => link.removeAttribute("aria-current"));
+          const currentSection = observedSections.find(({ section }) => section === entry.target);
+          currentSection?.link.setAttribute("aria-current", "location");
+        });
+      },
+      { rootMargin: "-25% 0px -65% 0px" }
+    );
+
+    observedSections.forEach(({ section }) => sectionObserver.observe(section));
+  }
+
 </script>
 
 <style>
   .site-header {
-    background: #fffdf7;
-    border-bottom: 1px solid #d8ccb8;
+    background: rgba(255, 253, 247, 0.92);
+    border-bottom: 1px solid rgba(216, 204, 184, 0.8);
+    backdrop-filter: blur(16px);
     position: sticky;
     top: 0;
-    transition: background 180ms ease;
+    transition: background 180ms ease, border-color 180ms ease;
     z-index: 100;
   }
 
@@ -96,6 +159,12 @@ const links = [
     gap: 9px;
     font-weight: 700;
     justify-self: start;
+    transition: color 180ms ease, transform 180ms ease;
+  }
+
+  .brand:hover {
+    color: #8d6a45;
+    transform: translateY(-1px);
   }
 
   .brand img {
@@ -113,20 +182,51 @@ const links = [
     width: 38px;
   }
 
-  nav {
+  .main-nav {
     display: flex;
     gap: clamp(16px, 2.4vw, 34px);
     justify-content: center;
   }
 
-  nav a,
+  .main-nav a,
   .email-link {
     transition: color 160ms ease;
   }
 
-  nav a:hover,
+  .main-nav a {
+    display: inline-flex;
+    padding: 8px 2px;
+    position: relative;
+    transition: color 160ms ease, transform 160ms ease;
+  }
+
+  .main-nav a::after {
+    background: #c5a77f;
+    border-radius: 999px;
+    bottom: 1px;
+    content: "";
+    height: 2px;
+    left: 0;
+    position: absolute;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 180ms ease;
+    width: 100%;
+  }
+
+  .main-nav a:hover,
+  .main-nav a[aria-current="location"],
   .email-link:hover {
     color: #a78d68;
+  }
+
+  .main-nav a:hover {
+    transform: translateY(-1px);
+  }
+
+  .main-nav a:hover::after,
+  .main-nav a[aria-current="location"]::after {
+    transform: scaleX(1);
   }
 
   .email-link {
@@ -134,10 +234,9 @@ const links = [
   }
 
   .header-actions {
-    align-items: flex-end;
+    align-items: center;
     display: flex;
-    flex-direction: column;
-    gap: 8px;
+    gap: 12px;
     justify-self: end;
   }
 
@@ -167,24 +266,147 @@ const links = [
     margin-left: 4px;
   }
 
+  .menu-toggle {
+    align-items: center;
+    background: transparent;
+    border: 1px solid #d8ccb8;
+    border-radius: 999px;
+    cursor: pointer;
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    height: 40px;
+    justify-content: center;
+    width: 40px;
+  }
+
+  .menu-toggle span {
+    background: currentColor;
+    border-radius: 999px;
+    height: 2px;
+    transition: transform 180ms ease, opacity 180ms ease;
+    width: 16px;
+  }
+
+  .menu-toggle[aria-expanded="true"] span:first-child {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  .menu-toggle[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .menu-toggle[aria-expanded="true"] span:last-child {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  .menu-toggle:focus-visible,
+  .theme-toggle:focus-visible {
+    outline: 2px solid #a78d68;
+    outline-offset: 3px;
+  }
+
   @media (max-width: 680px) {
     .header-inner {
       column-gap: 16px;
       grid-template-columns: 1fr auto;
-      row-gap: 16px;
+      row-gap: 0;
     }
 
-    nav {
-      flex-wrap: wrap;
+    .header-actions {
+      gap: 8px;
+    }
+
+    .menu-toggle {
+      color: #3a3028;
+      display: inline-flex;
+    }
+
+    .main-nav {
+      align-items: stretch;
+      background: #fffdf7;
+      border-top: 1px solid transparent;
+      flex-direction: column;
+      gap: 2px;
       grid-column: 1 / -1;
-      justify-content: space-between;
       order: 1;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      padding: 0 4px;
+      pointer-events: none;
+      transform: translateY(-8px);
+      transition:
+        max-height 240ms ease,
+        opacity 180ms ease,
+        padding 240ms ease,
+        transform 180ms ease,
+        visibility 180ms ease;
+      visibility: hidden;
     }
 
-    nav a,
+    .main-nav.is-open {
+      border-top-color: #d8ccb8;
+      max-height: 320px;
+      opacity: 1;
+      padding: 12px 4px 4px;
+      pointer-events: auto;
+      transform: translateY(0);
+      visibility: visible;
+    }
+
+    .main-nav a {
+      border-radius: 6px;
+      padding: 12px;
+    }
+
+    .main-nav a:hover,
+    .main-nav a[aria-current="location"] {
+      background: #f1e6ce;
+    }
+
     .brand,
     .email-link {
       font-size: 0.72rem;
+    }
+  }
+
+  :global(:root[data-theme="dark"]) .menu-toggle {
+    border-color: #594f43;
+    color: #f5efe4;
+  }
+
+  :global(:root[data-theme="dark"]) .site-header {
+    background: rgba(36, 31, 26, 0.92);
+    border-bottom-color: rgba(89, 79, 67, 0.8);
+  }
+
+  :global(:root[data-theme="dark"]) .brand:hover,
+  :global(:root[data-theme="dark"]) .main-nav a:hover,
+  :global(:root[data-theme="dark"]) .main-nav a[aria-current="location"] {
+    color: #d3b58a;
+  }
+
+  :global(:root[data-theme="dark"]) .main-nav a {
+    color: #f5efe4;
+  }
+
+  @media (max-width: 420px) {
+    .email-link {
+      display: none;
+    }
+  }
+
+  @media (max-width: 680px) {
+    :global(:root[data-theme="dark"]) .main-nav {
+      background: #241f1a;
+      border-top-color: #594f43;
+    }
+
+    :global(:root[data-theme="dark"]) .main-nav a:hover,
+    :global(:root[data-theme="dark"]) .main-nav a[aria-current="location"] {
+      background: #3a3228;
+      color: #d3b58a;
     }
   }
 </style>

@@ -19,62 +19,181 @@
         <label for="email">Email</label>
         <input id="email" name="Email" type="email" autocomplete="email" />
 
+        <label for="service">What would you like help with?</label>
+        <select id="service" name="Service">
+          <option value="" selected>Choose a service (optional)</option>
+          <option value="Photo Editing">Photo Editing</option>
+          <option value="Custom Layouts">Custom Layouts</option>
+          <option value="Web Development">Web Development</option>
+          <option value="Other">Something else</option>
+        </select>
+
         <label for="message">Message</label>
         <textarea id="message" name="Message" rows="5"></textarea>
 
         <button type="submit">Send message</button>
       </form>
+
+      <div class="contact-quick-links">
+        <span>Prefer email?</span>
+        <a href="mailto:clickchickbooth@gmail.com">clickchickbooth@gmail.com</a>
+        <button type="button" class="copy-email-button" data-copy-email>Copy email</button>
+        <span class="copy-email-status" data-copy-status aria-live="polite"></span>
+      </div>
 </section>
+
+<script>
+  const copyEmailButton = document.querySelector<HTMLButtonElement>("[data-copy-email]");
+  const copyEmailStatus = document.querySelector<HTMLElement>("[data-copy-status]");
+  const emailAddress = "clickchickbooth@gmail.com";
+
+  copyEmailButton?.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(emailAddress);
+      if (copyEmailStatus) copyEmailStatus.textContent = "Email copied.";
+    } catch {
+      if (copyEmailStatus) {
+        copyEmailStatus.textContent = `Copy unavailable. Email us at ${emailAddress}.`;
+      }
+    }
+  });
+</script>
 
 <style>
   .contact-page {
-    background: #f5f0e6;
+    background:
+      radial-gradient(ellipse at 12% 90%, rgba(201, 170, 127, 0.12), transparent 34%),
+      #fffdf9;
     min-height: calc(100vh - 72px);
+  }
+
+  .contact-form select {
+    appearance: none;
+    background-image:
+      linear-gradient(45deg, transparent 50%, #756958 50%),
+      linear-gradient(135deg, #756958 50%, transparent 50%);
+    background-position:
+      calc(100% - 18px) 50%,
+      calc(100% - 13px) 50%;
+    background-repeat: no-repeat;
+    background-size: 5px 5px, 5px 5px;
+    cursor: pointer;
+    margin-bottom: 18px;
+  }
+
+  .contact-quick-links {
+    align-items: center;
+    color: #80563e;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 0.76rem;
+    gap: 12px;
+    justify-content: center;
+    margin: 24px auto 0;
+  }
+
+  .contact-quick-links a {
+    color: #3e251d;
+    font-weight: 600;
+    text-underline-offset: 3px;
+  }
+
+  .copy-email-button {
+    background: transparent;
+    border: 1px solid #ead6bf;
+    border-radius: 999px;
+    color: #3e251d;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 8px 12px;
+    transition: background 180ms ease, border-color 180ms ease;
+  }
+
+  .copy-email-button:hover {
+    background: #f3e5d1;
+    border-color: #cead88;
+  }
+
+  .copy-email-status {
+    flex-basis: 100%;
+    min-height: 1em;
+    text-align: center;
   }
 
   .contact-section {
     margin: 0 auto;
     max-width: 1380px;
-    padding: 82px clamp(24px, 7vw, 96px) 96px;
+    padding: 96px clamp(24px, 7vw, 96px) 110px;
+  }
+
+  :global(:root[data-theme="dark"]) .contact-quick-links {
+    color: #c6baa6;
+  }
+
+  :global(:root[data-theme="dark"]) .contact-quick-links a,
+  :global(:root[data-theme="dark"]) .copy-email-button {
+    color: #f5efe4;
+  }
+
+  :global(:root[data-theme="dark"]) .copy-email-button {
+    border-color: #594f43;
+  }
+
+  :global(:root[data-theme="dark"]) .copy-email-button:hover {
+    background: #3a3228;
+    border-color: #d3b58a;
   }
 
   .section-heading {
-    color: #3a3028;
-    margin-bottom: 34px;
+    color: #352119;
+    margin: 0 auto 42px;
+    max-width: 720px;
     text-align: center;
   }
 
   .section-heading p {
-    color: #756958;
+    background: #f7ead8;
+    border-radius: 999px;
+    color: #995d3a;
+    display: inline-flex;
     font-size: 0.68rem;
     font-weight: 700;
-    letter-spacing: 0.18em;
-    margin: 0 0 12px;
+    letter-spacing: 0.14em;
+    margin: 0 0 15px;
+    padding: 8px 12px;
     text-transform: uppercase;
   }
 
   .section-heading h1 {
     font-size: clamp(2.2rem, 4vw, 3.7rem);
-    letter-spacing: -0.04em;
-    margin: 0 0 12px;
+    font-weight: 600;
+    letter-spacing: -0.055em;
+    line-height: 1.02;
+    margin: 0 0 14px;
   }
 
   .section-heading span {
-    color: #756958;
+    color: #8b5a40;
     font-size: 0.88rem;
+    line-height: 1.7;
   }
 
   .contact-form {
-    background: #fffdf7;
-    border: 1px solid #d8ccb8;
-    border-radius: 0;
+    background: #f8f0e3;
+    border: 1px solid #ead6bf;
+    border-radius: 20px;
+    box-shadow: 0 24px 60px rgba(58, 48, 40, 0.09);
+    display: grid;
+    gap: 2px;
     margin: 0 auto;
     max-width: 820px;
-    padding: 30px 32px 28px;
+    padding: clamp(24px, 4vw, 42px);
   }
 
   .contact-form label {
-    color: #756958;
+    color: #805039;
     display: block;
     font-size: 0.78rem;
     font-weight: 600;
@@ -82,15 +201,16 @@
   }
 
   .contact-form input,
-  .contact-form textarea {
-    background: #fffdf7;
-    border: 1px solid #d8ccb8;
-    border-radius: 0;
-    color: #3a3028;
+  .contact-form textarea,
+  .contact-form select {
+    background: #fffdf9;
+    border: 1px solid #ead6bf;
+    border-radius: 10px;
+    color: #352119;
     font: inherit;
     margin: 0 0 18px;
-    outline: none;
-    padding: 12px 13px;
+    padding: 14px 15px;
+    transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
     width: 100%;
   }
 
@@ -100,17 +220,20 @@
   }
 
   .contact-form input:focus,
-  .contact-form textarea:focus {
-    border-color: #c5a77f;
-    box-shadow: none;
+  .contact-form textarea:focus,
+  .contact-form select:focus {
+    border-color: #bd8a63;
+    box-shadow: 0 0 0 4px rgba(189, 138, 99, 0.18);
+    outline: none;
   }
 
   .contact-form button {
     align-items: center;
-    background: #c5a77f;
+    background: #3e251d;
     border: 0;
     border-radius: 999px;
-    color: #3a3028;
+    box-shadow: 0 8px 20px rgba(58, 48, 40, 0.14);
+    color: #fffaf4;
     display: flex;
     font-size: 0.78rem;
     font-weight: 700;
@@ -119,6 +242,14 @@
     margin: 2px 0 0;
     min-width: 130px;
     cursor: pointer;
+    padding-inline: 20px;
+    transition: background 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+  }
+
+  .contact-form button:hover {
+    background: #5d392b;
+    box-shadow: 0 12px 25px rgba(62, 37, 29, 0.2);
+    transform: translateY(-2px);
   }
 
   @media (max-width: 800px) {
@@ -128,6 +259,36 @@
 
     .contact-form {
       padding: 24px 20px;
+    }
+  }
+
+  :global(:root[data-theme="dark"]) .contact-form {
+    background: #2c261f;
+    border-color: #594f43;
+  }
+
+  :global(:root[data-theme="dark"]) .contact-form input,
+  :global(:root[data-theme="dark"]) .contact-form textarea,
+  :global(:root[data-theme="dark"]) .contact-form select {
+    background: #241f1a;
+    border-color: #594f43;
+    color: #f5efe4;
+  }
+
+  :global(:root[data-theme="dark"]) .contact-form button {
+    background: #d3b58a;
+    color: #241f1a;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .contact-form input,
+    .contact-form textarea,
+    .contact-form button {
+      transition: none;
+    }
+
+    .contact-form button:hover {
+      transform: none;
     }
   }
 </style>

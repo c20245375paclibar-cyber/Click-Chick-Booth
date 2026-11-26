@@ -1,8 +1,11 @@
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-const revealItems = document.querySelectorAll(
-  ".content-card, .contact-form"
+const gsapSectionSelector = "#process, #about, #projects, #contact";
+const revealItems = Array.from(
+  document.querySelectorAll(".content-card, .contact-form")
+).filter((item) => !item.closest(gsapSectionSelector));
+const scrubItems = Array.from(document.querySelectorAll(".section-heading")).filter(
+  (item) => !item.closest(gsapSectionSelector)
 );
-const scrubItems = document.querySelectorAll(".section-heading");
 
 revealItems.forEach((item, index) => {
   item.classList.add("reveal");
