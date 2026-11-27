@@ -1,5 +1,5 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
+import Card from "../Card.astro";
 
 const steps = [
   {
@@ -29,12 +29,7 @@ const steps = [
 ];
 ---
 
-<BaseLayout
-  title="Process | Click Chick Booth"
-  description="The creative and programming process used for Click Chick Booth projects."
->
-  <main class="process-page">
-    <section class="process-section" aria-labelledby="process-title">
+<section class="process-page process-section" id="process" aria-labelledby="process-title">
       <header class="section-heading">
         <p>How we work</p>
         <h1 id="process-title">Our Process</h1>
@@ -43,16 +38,10 @@ const steps = [
 
       <div class="process-grid">
         {steps.map((step) => (
-          <article class="process-card">
-            <span class="step-number">{step.number}</span>
-            <h2>{step.title}</h2>
-            <p>{step.description}</p>
-          </article>
+          <Card eyebrow={step.number} title={step.title} desc={step.description} />
         ))}
       </div>
-    </section>
-  </main>
-</BaseLayout>
+</section>
 
 <style>
   .process-page {
@@ -70,65 +59,42 @@ const steps = [
 
   .section-heading {
     color: #3a3028;
-    margin-bottom: 42px;
+    margin: 0 auto 46px;
+    max-width: 720px;
     text-align: center;
   }
 
   .section-heading p {
-    color: #756958;
+    background: #f1e6ce;
+    border-radius: 999px;
+    color: #8d6a45;
+    display: inline-flex;
     font-size: 0.68rem;
     font-weight: 700;
-    letter-spacing: 0.18em;
-    margin: 0 0 12px;
+    letter-spacing: 0.14em;
+    margin: 0 0 15px;
+    padding: 8px 12px;
     text-transform: uppercase;
   }
 
   .section-heading h1 {
     font-size: clamp(2.2rem, 4vw, 3.7rem);
-    letter-spacing: -0.04em;
-    line-height: 1;
-    margin: 0 0 12px;
+    font-weight: 600;
+    letter-spacing: -0.055em;
+    line-height: 1.02;
+    margin: 0 0 14px;
   }
 
   .section-heading span {
     color: #756958;
     font-size: 0.88rem;
+    line-height: 1.7;
   }
 
   .process-grid {
     display: grid;
-    gap: 18px;
+    gap: 24px;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
-  .process-card {
-    background: #fffdf7;
-    border: 1px solid #d8ccb8;
-    border-radius: 0;
-    min-height: 220px;
-    padding: 30px 28px;
-  }
-
-  .step-number {
-    color: #c5a77f;
-    display: block;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    margin-bottom: 46px;
-  }
-
-  .process-card h2 {
-    color: #3a3028;
-    font-size: clamp(1.05rem, 1.5vw, 1.35rem);
-    margin: 0 0 14px;
-  }
-
-  .process-card p {
-    color: #756958;
-    font-size: 0.86rem;
-    line-height: 1.7;
-    margin: 0;
   }
 
   @media (max-width: 900px) {
@@ -147,8 +113,5 @@ const steps = [
       grid-template-columns: 1fr;
     }
 
-    .process-card {
-      min-height: 190px;
-    }
   }
 </style>

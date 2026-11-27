@@ -34,30 +34,7 @@
         <button type="submit">Send message</button>
       </form>
 
-      <div class="contact-quick-links">
-        <span>Prefer email?</span>
-        <a href="mailto:clickchickbooth@gmail.com">clickchickbooth@gmail.com</a>
-        <button type="button" class="copy-email-button" data-copy-email>Copy email</button>
-        <span class="copy-email-status" data-copy-status aria-live="polite"></span>
-      </div>
 </section>
-
-<script>
-  const copyEmailButton = document.querySelector<HTMLButtonElement>("[data-copy-email]");
-  const copyEmailStatus = document.querySelector<HTMLElement>("[data-copy-status]");
-  const emailAddress = "clickchickbooth@gmail.com";
-
-  copyEmailButton?.addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(emailAddress);
-      if (copyEmailStatus) copyEmailStatus.textContent = "Email copied.";
-    } catch {
-      if (copyEmailStatus) {
-        copyEmailStatus.textContent = `Copy unavailable. Email us at ${emailAddress}.`;
-      }
-    }
-  });
-</script>
 
 <style>
   .contact-page {
@@ -81,69 +58,10 @@
     margin-bottom: 18px;
   }
 
-  .contact-quick-links {
-    align-items: center;
-    color: #80563e;
-    display: flex;
-    flex-wrap: wrap;
-    font-size: 0.76rem;
-    gap: 12px;
-    justify-content: center;
-    margin: 24px auto 0;
-  }
-
-  .contact-quick-links a {
-    color: #3e251d;
-    font-weight: 600;
-    text-underline-offset: 3px;
-  }
-
-  .copy-email-button {
-    background: transparent;
-    border: 1px solid #ead6bf;
-    border-radius: 999px;
-    color: #3e251d;
-    cursor: pointer;
-    font: inherit;
-    font-size: 0.72rem;
-    font-weight: 600;
-    padding: 8px 12px;
-    transition: background 180ms ease, border-color 180ms ease;
-  }
-
-  .copy-email-button:hover {
-    background: #f3e5d1;
-    border-color: #cead88;
-  }
-
-  .copy-email-status {
-    flex-basis: 100%;
-    min-height: 1em;
-    text-align: center;
-  }
-
   .contact-section {
     margin: 0 auto;
     max-width: 1380px;
     padding: 96px clamp(24px, 7vw, 96px) 110px;
-  }
-
-  :global(:root[data-theme="dark"]) .contact-quick-links {
-    color: #c6baa6;
-  }
-
-  :global(:root[data-theme="dark"]) .contact-quick-links a,
-  :global(:root[data-theme="dark"]) .copy-email-button {
-    color: #f5efe4;
-  }
-
-  :global(:root[data-theme="dark"]) .copy-email-button {
-    border-color: #594f43;
-  }
-
-  :global(:root[data-theme="dark"]) .copy-email-button:hover {
-    background: #3a3228;
-    border-color: #d3b58a;
   }
 
   .section-heading {
