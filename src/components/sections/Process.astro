@@ -32,7 +32,7 @@ const steps = [
 <section class="process-page process-section" id="process" aria-labelledby="process-title">
       <header class="section-heading">
         <p>How we work</p>
-        <h1 id="process-title">Our Process</h1>
+        <h2 id="process-title">Our Process</h2>
         <span>A clear four-step process from the first idea to the finished project.</span>
       </header>
 
@@ -59,6 +59,10 @@ const steps = [
     transform: translateX(-50%);
     width: 100vw;
     z-index: -1;
+  }
+
+  :global(:root[data-theme="dark"]) .process-page::before {
+    background: #241f1a;
   }
 
   .process-section {
@@ -88,7 +92,7 @@ const steps = [
     text-transform: uppercase;
   }
 
-  .section-heading h1 {
+  .section-heading h2 {
     font-size: clamp(2.2rem, 4vw, 3.7rem);
     font-weight: 600;
     letter-spacing: -0.055em;

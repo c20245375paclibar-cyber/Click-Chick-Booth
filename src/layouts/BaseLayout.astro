@@ -20,6 +20,7 @@ const { title, description } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <Header />
     <slot />
     <footer class="site-footer">
@@ -40,6 +41,7 @@ const { title, description } = Astro.props;
 
 <style is:global>
   :root {
+    overflow-x: clip;
     scroll-behavior: smooth;
     scroll-padding-top: 88px;
     --footer-background: #fff;
@@ -62,6 +64,7 @@ const { title, description } = Astro.props;
     color: #3a3028;
     font-family: Inter, "Segoe UI", Arial, Helvetica, sans-serif;
     margin: 0;
+    overflow-x: clip;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -185,6 +188,32 @@ const { title, description } = Astro.props;
   a:focus-visible {
     outline: 2px solid #3a3028;
     outline-offset: 4px;
+  }
+
+  :root[data-theme="dark"] :focus-visible {
+    outline-color: #d3b58a;
+  }
+
+  .skip-link {
+    background: #3a3028;
+    border-radius: 999px;
+    color: #fffdf7;
+    left: 16px;
+    padding: 12px 18px;
+    position: fixed;
+    top: 12px;
+    transform: translateY(calc(-100% - 16px));
+    transition: transform 180ms ease;
+    z-index: 200;
+  }
+
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+
+  :root[data-theme="dark"] .skip-link {
+    background: #d3b58a;
+    color: #241f1a;
   }
 
   .site-footer {

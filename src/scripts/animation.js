@@ -24,9 +24,8 @@ if (!reducedMotion.matches) {
       const start = Number(item.dataset.scrubStart ?? 0.9) * viewportHeight;
       const end = Number(item.dataset.scrubEnd ?? 0.35) * viewportHeight;
       const progress = Math.max(0, Math.min(1, (start - rect.top) / (start - end)));
-      const lift = (1 - progress) * 20;
+      const lift = (1 - progress) * 14;
 
-      item.style.opacity = String(0.55 + progress * 0.45);
       item.style.transform = `translate3d(0, ${lift}px, 0)`;
     });
   };

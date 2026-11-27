@@ -83,7 +83,7 @@ const projects: Project[] = [
 <section class="projects-page projects-section" id="projects" aria-labelledby="projects-title">
       <header class="section-heading">
         <p>Our work</p>
-        <h1 id="projects-title">Our Projects</h1>
+        <h2 id="projects-title">Our Projects</h2>
         <span>Creative design connected with practical programming skills.</span>
       </header>
 
@@ -168,6 +168,10 @@ const projects: Project[] = [
     z-index: -1;
   }
 
+  :global(:root[data-theme="dark"]) .projects-page::before {
+    background: linear-gradient(180deg, #241f1a, #30271f);
+  }
+
   .projects-section {
     margin: 0 auto;
     max-width: 1380px;
@@ -194,7 +198,7 @@ const projects: Project[] = [
     text-transform: uppercase;
   }
 
-  .section-heading h1 {
+  .section-heading h2 {
     font-size: clamp(2.2rem, 4vw, 3.7rem);
     font-weight: 600;
     letter-spacing: -0.055em;
@@ -596,5 +600,17 @@ const projects: Project[] = [
 
   projectDialog?.addEventListener("click", (event) => {
     if (event.target === projectDialog) projectDialog.close();
+  });
+
+  projectDialog?.addEventListener("cancel", (event) => {
+    event.preventDefault();
+    projectDialog.close();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && projectDialog?.open) {
+      event.preventDefault();
+      projectDialog.close();
+    }
   });
 </script>

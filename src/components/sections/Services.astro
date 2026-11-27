@@ -48,7 +48,7 @@ const programmingServices = [
     <section class="skills-section" aria-labelledby="non-technical-title">
       <header class="section-heading">
         <p>What we offer</p>
-        <h1 id="non-technical-title">Non-Technical Skills</h1>
+        <h2 id="non-technical-title">Non-Technical Skills</h2>
         <span>Creative skills that help us plan and improve every project.</span>
       </header>
 
@@ -62,7 +62,7 @@ const programmingServices = [
     <section class="skills-section programming-section" aria-labelledby="programming-title">
       <header class="section-heading">
         <p>What we build</p>
-        <h1 id="programming-title">Programming Skills</h1>
+        <h2 id="programming-title">Programming Skills</h2>
         <span>Our technical skills bring creative ideas and edited photos to the web.</span>
       </header>
 
@@ -103,6 +103,11 @@ const programmingServices = [
     z-index: -1;
   }
 
+  :global(:root[data-theme="dark"]) .programming-section::before {
+    background: linear-gradient(135deg, #241f1a, #30271f);
+    border-top-color: #40382f;
+  }
+
   .section-heading {
     color: #3a3028;
     margin: 0 auto 46px;
@@ -123,7 +128,7 @@ const programmingServices = [
     text-transform: uppercase;
   }
 
-  .section-heading h1 {
+  .section-heading h2 {
     font-size: clamp(2.2rem, 4vw, 3.7rem);
     font-weight: 600;
     letter-spacing: -0.055em;
